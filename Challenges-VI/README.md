@@ -1,2 +1,0 @@
-# Challenges-VI
-Challenges VI
