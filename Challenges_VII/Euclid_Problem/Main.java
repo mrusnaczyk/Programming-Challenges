@@ -18,7 +18,7 @@ public class Main {
 		} catch (Exception e) {
 			s.close();
 			System.exit(0);
-		}
+		}  
 	}
 
 	public static int[] gcd(int a, int b) {
