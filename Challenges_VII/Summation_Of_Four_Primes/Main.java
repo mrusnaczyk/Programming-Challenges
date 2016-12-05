@@ -1,21 +1,25 @@
 package Challenges_VII.Summation_Of_Four_Primes;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class Main {
 
 	public static ArrayList<Integer> primeList;
+	public static HashMap<String, Integer> primeHash;
+	public static final int MAX = 10000000;
 
 	public static void main(String[] args) {
 		Scanner s = new Scanner(System.in);
 		primeList = new ArrayList<Integer>();
-		genPrimes();
-		try{
+		primeHash = new HashMap<String,Integer>();
+		genPrimes();		
+		try {
 			while (true) {
 				String primes = "";
 				int next = Integer.parseInt(s.nextLine().trim());
-				if (next > 8) {
+				if (next >= 8) {
 					if ((next - 4) % 2 == 0) {
 						next -= 4;
 						primes += "2 2 ";
@@ -23,48 +27,53 @@ public class Main {
 						next -= 5;
 						primes += "2 3 ";
 					}
-	
+
 					for (int p : primeList) {
-						if (primeList.contains(next - p)) {
-							primes += p + " " + primeList.get(primeList.indexOf(next - p));
+						int potential = next - p;
+						if (primeHash.get(String.valueOf(potential)) != null) {
+							primes += p + " " + potential;
 							break;
 						}
 					}
-	
+					System.out.println(primes.trim());
+
 				} else {
-					int temp = 0;
-					while (temp != next) {
-						temp += 2;
-						primes += "2 ";
-					}
+					System.out.println("Impossible.");
 				}
-				System.out.println(primes.trim());
+				
 			}
-		}catch(Exception e){
+		} catch (Exception e) {
 			s.close();
 			System.exit(0);
 		}
 
 	}
 
-	public static void genPrimes() {
-		primeList.add(2);
-		for (int i = 3; i < 1000000; i++) {
-			if (i % 2 != 0) {
-				int rootX = (int) Math.sqrt(i);
-				boolean divisible = false;
-				for (int j = 2; j < rootX + 1; j++) {
-					if (i % j == 0) {
-						divisible = true;
-						break;
-					}
-				}
-				if (!divisible) {
-					primeList.add(i);
-				}
+	public static void genPrimes(){
+		
+	    boolean[] sieve = new boolean[MAX+1]; 
+	    sieve[0] = true; 
+	    sieve[1] = true; 
+	    sieve[2] = false;
 
-			}
-		}
+	    for(int i = 4; i <= MAX; i+=2)
+	    	sieve[i] = true;
+	    
+	    for(int i = 3; i < (int)Math.sqrt(MAX)+1; i+=2)
+	    {
+	        if(!sieve[i])
+	        {
+	            for(int j = i*i; j <= MAX; j+=i)
+	            	sieve[j] = true;
+	        }
+	    }
+	    
+	    for(int b = 0; b < sieve.length; b++){
+	    	if(!sieve[b]){
+	    		primeList.add(b);
+	    		primeHash.put(String.valueOf(b), b);
+	    	}
+	    }
+
 	}
-
 }
