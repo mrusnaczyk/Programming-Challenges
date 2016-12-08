@@ -1,4 +1,4 @@
-package Light_More_Light;
+package Challenges_VII.Light_More_Light;
 import java.util.Scanner;
 
 public class Main {
