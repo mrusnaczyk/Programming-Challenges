@@ -3,8 +3,6 @@ package Challenges_VIII.Little_Bishops;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import javax.swing.plaf.metal.MetalIconFactory.PaletteCloseIcon;
-
 public class Main {
 	static ArrayList<String> placedBishops;
 	static int numBishops;
