@@ -39,9 +39,12 @@ public class Main {
 					}
 				}
 
+				// Place a Bishop in the cell if it's safe to do so
 				if (isSafe) {
 					placedBishops.add(String.valueOf(row) + "," + String.valueOf(i));
 					System.out.println("*** " + row + "," + i + " is safe. ***");
+					// If the number of placed bishops is the number we
+					// want, increment the number of solutions and remove the last placed bishop.
 					if (placedBishops.size() == numBishops) {
 						numPlacements++;
 						System.out.println("New Solution! Number of sol: " + numPlacements);
