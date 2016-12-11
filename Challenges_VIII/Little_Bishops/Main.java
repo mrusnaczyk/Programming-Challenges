@@ -1,54 +1,64 @@
 package Challenges_VIII.Little_Bishops;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Main {
+import javax.swing.plaf.metal.MetalIconFactory.PaletteCloseIcon;
 
-	public static int numSolutions = 0;
+public class Main {
+	static ArrayList<String> placedBishops;
+	static int numBishops;
+	static int numPlacements;
 
 	public static void main(String[] args) {
 		Scanner s = new Scanner(System.in);
+		int sizeOfBoard = 0;
+		numBishops = 0;
 
-		int boardSize = 0;
-		int maxBishops = 0;
+		while ((sizeOfBoard = s.nextInt()) != 0 && (numBishops = s.nextInt()) != 0) {
+			numPlacements = 0;
+			placedBishops = new ArrayList<String>();
+			backtrack(1, sizeOfBoard);
+			System.out.println(numPlacements);
 
-		while ((boardSize = s.nextInt()) != 0 && (maxBishops = s.nextInt()) != 0) {
-			numSolutions = 0;
-			int[] equations = new int[maxBishops];
-			backtrack(equations, 1, maxBishops, boardSize);
-
-			System.out.println(numSolutions);
 		}
 
 	}
 
-	public static void backtrack(int[] equations, int numBishops, int maxBishops, int boardSize) {
-		if (numBishops < maxBishops) {
-			for (int x = 0; x < boardSize; x++) {
-				for (int y = 0; y < boardSize; y++) {
-					boolean blocked = false;
-					for (int e : equations) {
-						if (((-1 * x) + e) == y || (x - e) == y) {
-							blocked = true;
-							break;
-						}
-					}
+	public static void backtrack(int row, int n) {
+		// n is the number of columns on the board
+		// i is the current column
+		if (row <= n) {
+			for (int i = 1; i <= n; i++) {
+				boolean isSafe = true;
+				for (String b : placedBishops) {
+					String[] point = b.split(",");
+					int[] coord = { Integer.parseInt(point[0]), Integer.parseInt(point[1]) };
 
-					if (!blocked) {
-						if (numBishops < maxBishops) {
-							int[] temp = equations;
-							temp[numBishops] = y - x;
-							backtrack(temp, numBishops + 1, maxBishops, boardSize);
-						}
-						// if (numBishops == maxBishops) {
-						// numSolutions++;
-						// }
+					if (Math.abs(row - coord[0]) == Math.abs(i - coord[1])) {
+						isSafe = false;
+						break;
 					}
 				}
-			}
-		} else {
-			numSolutions++;
 
+				if (isSafe) {
+					placedBishops.add(String.valueOf(row) + "," + String.valueOf(i));
+					System.out.println("*** " + row + "," + i + " is safe. ***");
+					if (placedBishops.size() == numBishops) {
+						numPlacements++;
+						System.out.println("New Solution! Number of sol: " + numPlacements);
+						placedBishops.remove(placedBishops.size() - 1);
+						// break;
+					} else {
+						backtrack(row + 1, n);
+					}
+				} else {
+					System.out.println(row + "," + i + " is not safe.");
+				}
+			}
+
+			if (placedBishops.size() > 0)
+				placedBishops.remove(placedBishops.size() - 1);
 		}
 
 	}
