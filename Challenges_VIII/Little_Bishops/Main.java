@@ -1,4 +1,4 @@
-package Challenges_VIII.Little_Bishops;
+package Light_More_Light;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -42,24 +42,32 @@ public class Main {
 				// Place a Bishop in the cell if it's safe to do so
 				if (isSafe) {
 					placedBishops.add(String.valueOf(row) + "," + String.valueOf(i));
-					System.out.println("*** " + row + "," + i + " is safe. ***");
+					System.out.println("*** " + row + "," + i + " is safe. " + placedBishops.size() + "***");
 					// If the number of placed bishops is the number we
 					// want, increment the number of solutions and remove the last placed bishop.
 					if (placedBishops.size() == numBishops) {
 						numPlacements++;
-						System.out.println("New Solution! Number of sol: " + numPlacements);
+						System.out.println("New Solution! Number of sol: " + numPlacements +". " + placedBishops);
 						placedBishops.remove(placedBishops.size() - 1);
 						// break;
 					} else {
-						backtrack(row + 1, n);
+							backtrack(row + 1, n);
 					}
 				} else {
 					System.out.println(row + "," + i + " is not safe.");
+				}
+				
+				if(row == n){
+					backtrack(row + 1, n);
 				}
 			}
 
 			if (placedBishops.size() > 0)
 				placedBishops.remove(placedBishops.size() - 1);
+			
+			backtrack(row + 1, n);
+			
+			
 		}
 
 	}
